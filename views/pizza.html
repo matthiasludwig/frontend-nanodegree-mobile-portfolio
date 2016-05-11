@@ -29,6 +29,8 @@
         position: fixed;
         width: 256px;
         z-index: -1;
+        will-change: transform; /* Indicates to the Browser that the Pizza picture will move. Reduces Compositing.*/
+        transform: translateZ(0);
       }
       .randomPizzaContainer {
         float: left;
@@ -175,7 +177,7 @@
         </div>
       </div>
     </div>
-    <div id="footer" class="col-md-12">Thanks for visiting! &copy; 2014 Udacity</div>
+    <div id="footer" class="col-md-12">Thanks for visiting! &copy; 2016 Udacity</div>
   </div>
   <script type="text/javascript" src="js/main.js"></script>
 </body>
