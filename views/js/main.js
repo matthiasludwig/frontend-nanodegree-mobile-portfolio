@@ -450,10 +450,11 @@ var resizePizzas = function(size) {
 
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+    var allPizzaContainers = document.querySelectorAll(".randomPizzaContainer"); // Get all the Pizzas in one variable
+    var dx = determineDx(allPizzaContainers[1], size); // Determine dx for one variable instead of in the loop. (no FSL)
+    var newwidth = (allPizzaContainers[1].offsetWidth + dx) + 'px'; // newwidth is calculated outside the loop => does not FSL
+    for (var i = 0; i < allPizzaContainers.length; i++) {
+      allPizzaContainers[i].style.width = newwidth;
     }
   }
 
@@ -503,8 +504,9 @@ function updatePositions() {
   window.performance.mark("mark_start_frame");
 
   var items = document.querySelectorAll('.mover');
-  var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5)); // Moved the calculation outside of the loop to elimate jank
+  var scrollTopping = document.body.scrollTop / 1250; // Elimate FSL by calculating the variable outside the loop
   for (var i = 0; i < items.length; i++) {
+    var phase = Math.sin((scrollTopping) + (i % 5));
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
