@@ -450,7 +450,7 @@ var resizePizzas = function(size) {
 
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
-    var allPizzaContainers = document.getElementById(".randomPizzaContainer"); // Get all the Pizzas in one variable + use Web API
+    var allPizzaContainers = document.getElementsByClassName("randomPizzaContainer"); // Get all the Pizzas in one variable + use Web API
     var dx = determineDx(allPizzaContainers[1], size); // Determine dx for one variable instead of in the loop. (no FSL)
     var newwidth = (allPizzaContainers[1].offsetWidth + dx) + 'px'; // newwidth is calculated outside the loop => does not FSL
     for (var i = 0, len = allPizzaContainers.length; i < len; i++) {
@@ -527,9 +527,13 @@ window.addEventListener('scroll', updatePositions);
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
-  var s = 24; // Reduced the number of Pizzas to 24 for better performance
+  var s = 256;
+  var rows = Math.round(window.screen.height / 256);
+  var pizzas = rows * cols;
+  console.log("Number of pizzas to be generated is" + pizzas);
   var elem; // Declared outside of the loop for better performance
-  for (var i = 0; i < 200; i++) {
+  var movPizzas = document.getElementById("movingPizzas1"); // Moved outside the loop, so it does not have to be done with every iteration
+  for (var i = 0; i < pizzas; i++) { // Reduced the number of Pizzas to 24 for better performance
     elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
@@ -537,7 +541,7 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.getElementById("movingPizzas1").appendChild(elem); // Use Web API for performance gain
+    movPizzas.appendChild(elem); // Use Web API for performance gain
   }
   updatePositions();
 });
