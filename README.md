@@ -8,7 +8,7 @@ I optimized this mobile portfolio as part of my Front-End Nanodegree. This proje
 
 - [x] Optimized the pictures that loaded as thumbnails next to the individual pages
 - [x] Inlined CSS for performance gain
-- [x] Got rid of rendering blocking css (print) as a seperate css
+- [x] Got rid of rendering blocking css (print) as a separate css
 - [x] Rendering blocking JavaScript got moved to the end of the document and the tag "async"
 - [x] For an additional performance gain the Google Analytics JS is stored locally and cached for 8 days (Google Recommendation)
 - [x] Activating caching via CloudFlare for performance gain

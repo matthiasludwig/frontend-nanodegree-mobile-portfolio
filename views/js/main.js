@@ -528,11 +528,8 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  console.log("Screen Height is " + window.screen.height);
-  var rows = Math.round(window.screen.height / 256);
-  console.log("Calculated rows is " + rows);
-  var pizzas = rows * cols;
-  console.log("Number of pizzas to be generated is " + pizzas);
+  var rows = Math.round((window.screen.height / 256)); //Calculate the rows by dividing the screen height by the spacing between the rows
+  var pizzas = rows * cols; // Total number of pizzas are calculated as the result of rows (see above) and columns
   var elem; // Declared outside of the loop for better performance
   var movPizzas = document.getElementById("movingPizzas1"); // Moved outside the loop, so it does not have to be done with every iteration
   for (var i = 0; i < pizzas; i++) { // Reduced the number of Pizzas to 24 for better performance
