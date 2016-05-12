@@ -29,11 +29,14 @@
         position: fixed;
         width: 256px;
         z-index: -1;
-        will-change: transform; /* Indicates to the Browser that the Pizza picture will move. Reduces Compositing.*/
-        transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
+                backface-visibility: hidden; /* Indicates to the Browser that the Pizza picture will move. Reduces Compositing.*/
       }
       .randomPizzaContainer {
         float: left;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
         display: flex;
       }
       .randomPizzaContainer:after {

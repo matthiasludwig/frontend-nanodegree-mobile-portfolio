@@ -406,13 +406,13 @@ var resizePizzas = function(size) {
   function changeSliderLabel(size) {
     switch(size) {
       case "1":
-        document.querySelector("#pizzaSize").innerHTML = "Small";
+        document.getElementById("pizzaSize").innerHTML = "Small"; // Changed from querySelector to get ElementByID() for Performance gain
         return;
       case "2":
-        document.querySelector("#pizzaSize").innerHTML = "Medium";
+        document.getElementById("pizzaSize").innerHTML = "Medium"; // see above
         return;
       case "3":
-        document.querySelector("#pizzaSize").innerHTML = "Large";
+        document.getElementById("pizzaSize").innerHTML = "Large"; // see above
         return;
       default:
         console.log("bug in changeSliderLabel");
@@ -424,7 +424,7 @@ var resizePizzas = function(size) {
    // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
   function determineDx (elem, size) {
     var oldWidth = elem.offsetWidth;
-    var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
+    var windowWidth = document.getElementById("randomPizzas").offsetWidth; // Changed from querySelector for speed gain
     var oldSize = oldWidth / windowWidth;
 
     // Optional TODO: change to 3 sizes? no more xl?
@@ -450,10 +450,10 @@ var resizePizzas = function(size) {
 
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
-    var allPizzaContainers = document.querySelectorAll(".randomPizzaContainer"); // Get all the Pizzas in one variable
+    var allPizzaContainers = document.getElementById(".randomPizzaContainer"); // Get all the Pizzas in one variable + use Web API
     var dx = determineDx(allPizzaContainers[1], size); // Determine dx for one variable instead of in the loop. (no FSL)
     var newwidth = (allPizzaContainers[1].offsetWidth + dx) + 'px'; // newwidth is calculated outside the loop => does not FSL
-    for (var i = 0; i < allPizzaContainers.length; i++) {
+    for (var i = 0, len = allPizzaContainers.length; i < len; i++) {
       allPizzaContainers[i].style.width = newwidth;
     }
   }
@@ -470,8 +470,8 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
+var pizzasDiv = document.getElementById("randomPizzas");
 for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -503,10 +503,11 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.querySelectorAll('.mover');
+  var items = document.getElementsByClassName('mover'); // Use Web API for performance gain
   var scrollTopping = document.body.scrollTop / 1250; // Elimate FSL by calculating the variable outside the loop
-  for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((scrollTopping) + (i % 5));
+  var phase; // Variable will not be created every time the loop runs
+  for (var i = 0, len = items.length; i < len; i++) {
+    phase = Math.sin((scrollTopping) + (i % 5));
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
@@ -526,16 +527,17 @@ window.addEventListener('scroll', updatePositions);
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
-  var s = 256;
+  var s = 24; // Reduced the number of Pizzas to 24 for better performance
+  var elem; // Declared outside of the loop for better performance
   for (var i = 0; i < 200; i++) {
-    var elem = document.createElement('img');
+    elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.querySelector("#movingPizzas1").appendChild(elem);
+    document.getElementById("movingPizzas1").appendChild(elem); // Use Web API for performance gain
   }
   updatePositions();
 });
